@@ -21,7 +21,7 @@ class TestBaseModel(unittest.TestCase):
         cls.base.id = "1234"
 
     @classmethod
-    def tearDownClass(cls):
+    def teardown(cls):
         """ tear down cls """
         del cls.base
 
@@ -29,6 +29,8 @@ class TestBaseModel(unittest.TestCase):
         """ tear down for file storage """
         try:
             os.remove("file.json")
+        except Exception:
+            pass
 
     def test_pep8_BaseModel(self):
         """ testing for pep8 """
@@ -62,8 +64,8 @@ class TestBaseModel(unittest.TestCase):
     # BaseModel isn't a part of the DB, so .save() just won't work with it
     # in this context. .save() needs to be a part of file_storage testing
     # def test_BaseModel_save(self):
-    # """ Testing save """
-    # self.base.save()
+    #    """ Testing save """
+    #    self.base.save()
     #    self.assertNotEqual(self.base.created_at, self.base.updated_at)
 
     def test_str(self):

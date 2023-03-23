@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Unit tests for the State model"""
+""" module for state reviews"""
 import unittest
 import pep8
 from models.state import State
@@ -16,13 +16,11 @@ class TestState(unittest.TestCase):
         cls.state = State()
         cls.state.name = "Covid-landia"
 
-    @classmethod
-    def tearDownClass(cls):
+    def teardown(cls):
         """ tear down Class """
         del cls.state
 
     def tearDown(self):
-        super().tearDown()
         try:
             os.remove('file.json')
         except FileNotFoundError:
@@ -38,20 +36,20 @@ class TestState(unittest.TestCase):
         """ check for docstring """
         self.assertIsNotNone(State.__doc__)
 
-    def test_state_attribute_types(self):
+    def test_State_attribute_types(self):
         """ test State attribute types """
         self.assertEqual(type(self.state.name), str)
 
-    def test_state_is_subclass(self):
+    def test_State_is_subclass(self):
         """ test if State is subclass of BaseModel """
         self.assertTrue(issubclass(self.state.__class__, BaseModel), True)
 
-    def test_state_save(self):
+    def test_State_save(self):
         """ test save() command """
         self.state.save()
         self.assertNotEqual(self.state.created_at, self.state.updated_at)
 
-    def test_state_sa_instance_state(self):
+    def test_State_sa_instance_state(self):
         """ test is _sa_instance_state has been removed """
         self.assertNotIn('_sa_instance_state', self.state.to_dict())
 

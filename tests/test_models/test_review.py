@@ -18,9 +18,9 @@ class TestReview(unittest.TestCase):
         cls.rev.user_id = "johnny-sinner"
         cls.rev.text = "Best Damn Flowers this side of San Francisco"
 
-    def tearDown(self):
-        """tear down Class """
-        del self.rev
+    def teardown(cls):
+        """ tear down Class """
+        del cls.rev
 
     def tearDown(self):
         try:

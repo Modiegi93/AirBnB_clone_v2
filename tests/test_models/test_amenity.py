@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" module for testing Amenity class """
+""" module for state reviews"""
 import unittest
 import pep8
 from models.amenity import Amenity
@@ -16,39 +16,42 @@ class TestAmenity(unittest.TestCase):
         cls.amen = Amenity()
         cls.amen.name = "Wifi"
 
+    def teardown(cls):
+        """ tear down Class """
+        del cls.amen
+
     def tearDown(self):
         try:
             os.remove('file.json')
         except FileNotFoundError:
             pass
 
-    def test_pep8(self):
-        """ check for PEP8 style """
+    def test_Amenity_pep8(self):
+        """check for pep8 """
         style = pep8.StyleGuide(quiet=True)
-        result = style.check_files(["models/amenity.py"])
-        self.assertEqual(result.total_errors, 0, 'Fix PEP8')
+        p = style.check_files(["models/amenity.py"])
+        self.assertEqual(p.total_errors, 0, 'fix Pep8')
 
-    def test_docs(self):
+    def test_Amenity_docs(self):
         """ check for docstring """
         self.assertIsNotNone(Amenity.__doc__)
 
-    def test_attribute_types(self):
+    def test_Amenity_attribute_types(self):
         """ test Amenity attribute types """
         self.assertEqual(type(self.amen.name), str)
 
-    def test_is_subclass(self):
+    def test_Amenity_is_subclass(self):
         """ test if Amenity is subclass of BaseModel """
-        self.assertTrue(issubclass(Amenity, BaseModel))
+        self.assertTrue(issubclass(self.amen.__class__, BaseModel), True)
 
-    def test_save(self):
+    def test_Amenity_save(self):
         """ test save() command """
         self.amen.save()
         self.assertNotEqual(self.amen.created_at, self.amen.updated_at)
 
-    def test_sa_instance_state(self):
+    def test_Amenity_sa_instance_state(self):
         """ test is _sa_instance_state has been removed """
-        amen_dict = self.amen.to_dict()
-        self.assertFalse("_sa_instance_state" in amen_dict.keys())
+        self.assertNotIn('_sa_instance_state', self.amen.to_dict())
 
 
 if __name__ == "__main__":

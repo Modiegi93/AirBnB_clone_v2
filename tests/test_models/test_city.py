@@ -17,7 +17,7 @@ class TestCity(unittest.TestCase):
         cls.city.name = "San Francisco"
         cls.city.state_id = "san-francisco"
 
-    def tearDownClass(cls):
+    def teardown(cls):
         """ tear down Class """
         del cls.city
 

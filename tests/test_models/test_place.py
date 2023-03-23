@@ -15,7 +15,7 @@ class TestPlace(unittest.TestCase):
         """ Example Data """
         cls.place = Place()
         cls.place.city_id = "san-francisco"
-        cls.place.user_id = "Mathapelo Mphahlele"
+        cls.place.user_id = "madame-tabitha"
         cls.place.name = "Gilded Lily"
         cls.place.description = "A fragrant paradise where flowers bloom"
         cls.place.number_rooms = 30
@@ -27,9 +27,9 @@ class TestPlace(unittest.TestCase):
         cls.place.amenity_ids = ["1324-asdf"]
 
     @classmethod
-    def tearDownClass(cls):
+    def teardown(cls):
         """ tear down Class """
-        del cls.place
+        del cls.state
 
     def tearDown(self):
         try:

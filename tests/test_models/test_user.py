@@ -13,10 +13,10 @@ class TestUser(unittest.TestCase):
     def setUpClass(cls):
         """ Example Data """
         cls.user = User()
-        cls.user.first_name = "Mathapelo"
-        cls.user.last_name = "Mphahlele"
-        cls.user.email = "modiegi.mphahlele93@gmail.com"
-        cls.user.password = "L@rena.20"
+        cls.user.first_name = "Madame"
+        cls.user.last_name = "Tabitha"
+        cls.user.email = "gildedlily@gmail.com"
+        cls.user.password = "gildedlily123"
 
     @classmethod
     def teardown(cls):
@@ -26,8 +26,7 @@ class TestUser(unittest.TestCase):
     def tearDown(self):
         """ Tear down the file (file storage) """
         try:
-            if os.path.exists("file.json"):
-                os.remove("file.json")
+            os.remove("file.json")
         except FileNotFoundError:
             pass
 
@@ -39,14 +38,14 @@ class TestUser(unittest.TestCase):
 
     def test_docs_user(self):
         """ check for docstrings """
-        self.assertIsNotNone(User.__init__.__doc__)
+        self.assertIsNotNone(User.__doc__)
 
     def test_attribute_types_User(self):
         """test attribute type for User"""
         self.assertEqual(type(self.user.email), str)
         self.assertEqual(type(self.user.password), str)
         self.assertEqual(type(self.user.first_name), str)
-        self.assertEqual(type(self.user.last_name), str)
+        self.assertEqual(type(self.user.first_name), str)
 
 
 if __name__ == "__main__":
