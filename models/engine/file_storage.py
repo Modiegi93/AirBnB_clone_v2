@@ -1,6 +1,7 @@
 #!/usr/bin/python3
-"""Defines the FileStorage class."""
-
+"""
+    Define class FileStorage
+"""
 import json
 import os.path
 import models
@@ -11,6 +12,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+
 
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -73,6 +75,8 @@ class FileStorage:
                 class_name = classes[class_name]
                 FileStorage.__objects[key] = class_name(**val)
         except FileNotFoundError:
+            pass
+        except json.decoder.JSONDecodeError:
             pass
 
     def delete(self, obj=None):
