@@ -26,7 +26,8 @@ class TestUser(unittest.TestCase):
     def tearDown(self):
         """ Tear down the file (file storage) """
         try:
-            os.remove("file.json")
+            if os.path.exists("file.json"):
+                os.remove("file.json")
         except FileNotFoundError:
             pass
 
@@ -38,14 +39,14 @@ class TestUser(unittest.TestCase):
 
     def test_docs_user(self):
         """ check for docstrings """
-        self.assertIsNotNone(User.__doc__)
+        self.assertIsNotNone(User.__init__.__doc__)
 
     def test_attribute_types_User(self):
         """test attribute type for User"""
         self.assertEqual(type(self.user.email), str)
         self.assertEqual(type(self.user.password), str)
         self.assertEqual(type(self.user.first_name), str)
-        self.assertEqual(type(self.user.first_name), str)
+        self.assertEqual(type(self.user.last_name), str)
 
 
 if __name__ == "__main__":

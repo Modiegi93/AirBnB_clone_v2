@@ -27,9 +27,9 @@ class TestPlace(unittest.TestCase):
         cls.place.amenity_ids = ["1324-asdf"]
 
     @classmethod
-    def teardown(cls):
+    def tearDownClass(cls):
         """ tear down Class """
-        del cls.state
+        del cls.place
 
     def tearDown(self):
         try:
