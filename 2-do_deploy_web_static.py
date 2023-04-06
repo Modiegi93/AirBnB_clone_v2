@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-""" a module to push a package to servers and deploy """
-from fabric.api import *
+""" module to push a package to servers and deploy """
 import os
+from fabric.api import put, env, run
 
 
 env.hosts = ["52.91.135.61", "34.239.255.142"]
@@ -10,9 +10,7 @@ env.user = "ubuntu"
 
 
 def do_deploy(archive_path):
-    """
-    script that distributes an archive to your web servers
-    """
+    """ deploy package """
     if archive_path is None or not os.path.isfile(archive_path):
         print("NOT PATH")
         return False
@@ -29,6 +27,6 @@ def do_deploy(archive_path):
     run("ln -fs /data/web_static/releases/{}/ \
         /data/web_static/current".format(rname))
     run("mv /data/web_static/current/web_static/* /data/web_static/current/")
-    run("rm -rf /data/web_static/current/web_static")
+    run("rm -rf /data/web_static/curren/web_static")
 
     return True
