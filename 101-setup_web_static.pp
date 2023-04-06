@@ -1,15 +1,60 @@
 # puppet version of our setup of nginx for web static
-exec { '/usr/bin/env apt-get -y update': }
--> exec { '/usr/bin/env apt-get -y install nginx': }
--> exec { '/usr/bin/env sed -i "/listen \[::\]:80 default_server/ a\\\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default': }
--> exec { '/usr/bin/env sed -i "/listen \[::\]:80 default_server/ a\\\tadd_header X-Served-By \"\$HOSTNAME\";" /etc/nginx/sites-available/default': }
--> exec { '/usr/bin/env sed -i "/redirect_me/ a\\\terror_page 404 /custom_404.html;" /etc/nginx/sites-available/default': }
--> exec { '/usr/bin/env sh -c \'echo "Ceci n\'est pas une page" > /var/www/html/custom_404.html\'': } # added 'sh -c' to run the echo command in a shell
--> exec { '/usr/bin/env service nginx start': }
--> exec { '/usr/bin/env mkdir -p /data/web_static/releases/test/': }
--> exec { '/usr/bin/env mkdir -p /data/web_static/shared/': }
--> exec { '/usr/bin/env sh -c \'echo "Testing Nginx configuration" > /data/web_static/releases/test/index.html\'': } # added 'sh -c' to run the echo command in a shell
--> exec { '/usr/bin/env ln -sf /data/web_static/releases/test/ /data/web_static/current': }
--> exec { '/usr/bin/env sed -i "/^\tlocation \/ {$/ i\\\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n}" /etc/nginx/sites-available/default': }
--> exec { '/usr/bin/env service nginx restart': }
--> exec { '/usr/bin/env chown -R ubuntu:ubuntu /data/': }
+package { 'nginx':
+  ensure => installed,
+}
+
+file { '/etc/nginx/sites-available/default':
+  content => template('yourmodule/nginx/default.erb'),
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0644',
+  require => Package['nginx'],
+  notify  => Service['nginx'],
+}
+
+file { '/var/www/html/custom_404.html':
+  content => 'Ceci n\'est pas une page',
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0644',
+}
+
+file { '/data/web_static/releases/test/index.html':
+  content => 'simple content, to test your Nginx configuration',
+  owner   => 'ubuntu',
+  group   => 'ubuntu',
+  mode    => '0644',
+  require => [
+    File['/data/web_static/releases/test/'],
+    File['/data/web_static/shared/'],
+  ],
+}
+
+file { '/data/web_static/current':
+  ensure => 'link',
+  target => '/data/web_static/releases/test/',
+  owner  => 'ubuntu',
+  group  => 'ubuntu',
+  notify => Service['nginx'],
+}
+
+file { '/etc/nginx/sites-available/default':
+  content => template('yourmodule/nginx/default.erb'),
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0644',
+  require => Package['nginx'],
+  notify  => Service['nginx'],
+}
+
+service { 'nginx':
+  ensure     => running,
+  enable     => true,
+  hasrestart => true,
+  hasstatus  => true,
+}
+
+exec { 'set ownership of /data':
+  command => '/bin/chown -R ubuntu:ubuntu /data/',
+  onlyif  => '/usr/bin/test "$(stat -c %U:%G /data/)" = "ubuntu:ubuntu"',
+}
