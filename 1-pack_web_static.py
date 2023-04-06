@@ -1,14 +1,14 @@
 #!/usr/bin/python3
-
+""" a module to package web_static files """
+import os
 from fabric.api import *
 from datetime import datetime
 
 
 def do_pack():
-    """
-    Generates a .tgz archive from the contents of the 
-    web_static folder
-    """
+    """ Generates a .tgz archive from the contents of the 
+    web_static folder """
+    
     try:
         local("mkdir -p versions")
         now = datetime.now()
