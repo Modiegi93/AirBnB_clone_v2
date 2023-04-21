@@ -39,10 +39,10 @@ def number(n):
 @app.route("/number_template/<int:n>", strict_slashes=False)
 def number_template(n):
     """ number_template route """
-        return render_template("5-number.html", n=n)
+    return render_template("5-number.html", n=n)
 
 
-@app.route("/number_odd_or_even/<int:>", strict_slashes=False)
+@app.route("/number_odd_or_even/<int:n>", strict_slashes=False)
 def number_odd_or_even(n):
     """ number_odd_or_even route """
     return render_template("6-number_odd_or_even.html", n=n)
