@@ -1,10 +1,12 @@
 #!/usr/bin/python3
-'''
+"""
     This module defines the BaseModel class
-'''
+"""
 import uuid
 from datetime import datetime
+from os import getenv
 import models
+import sqlalchemy
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -15,9 +17,10 @@ class BaseModel:
     '''
         Base class for other classes to be used for the duration.
     '''
-    id = Column(String(60), primary_key=True, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
-    updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
+    if models.storage_type == "db":
+        id = Column(String(60), primary_key=True, nullable=False)
+        created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
+        updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
 
     def __init__(self, *args, **kwargs):
         '''
