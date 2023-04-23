@@ -3,6 +3,7 @@
     Implementation of the User class which inherits from BaseModel
 '''
 import models
+from models import storage
 from models.base_model import BaseModel, Base
 from models.place import Place
 from models.review import Review

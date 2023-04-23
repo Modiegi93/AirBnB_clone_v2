@@ -3,6 +3,7 @@
     Define the class Place.
 '''
 import models
+from models import storage
 from models.base_model import BaseModel, Base
 import sqlalchemy
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table

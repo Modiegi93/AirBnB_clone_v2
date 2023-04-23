@@ -2,10 +2,10 @@
 '''
     Package initializer
 '''
-import os
+from os import getenv
 
 
-storage_type = os.getenv("HBNB_TYPE_STORAGE")
+storage_type = getenv("HBNB_TYPE_STORAGE")
 
 if storage_type == "db":
     from models.engine.db_storage import DBStorage

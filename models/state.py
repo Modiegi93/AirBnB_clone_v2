@@ -3,6 +3,7 @@
     Implementation of the State class
 """
 import models
+from models import storage
 from models.base_model import BaseModel, Base
 from models.city import City
 import sqlalchemy
@@ -17,7 +18,7 @@ class State(BaseModel, Base):
     """Implementation for the State."""
     __tablename__ = 'states'
 
-    if storage_type != 'db':
+    if storage_type == 'db':
         name = Column(String(128), nullable=False)
         cities = relationship("City", backref="state",
                               cascade="all, delete-orphan")
@@ -28,13 +29,14 @@ class State(BaseModel, Base):
         """Initializes state"""
         super().__init__(*args, **kwargs)
 
-    if storage_type != 'db':
+    if models.storage_type != 'db':
         @property
         def cities(self):
-            """Get a list of City objects from storage"""
-            from models import storage
-            city_objs = []
-            for city in storage.all(City).values():
+            """getter for list of city instances related to the state"""
+            city_list = []
+            all_cities = models.storage.all(City)
+            for city in all_cities.values():
                 if city.state_id == self.id:
-                    city_objs.append(city)
-            return city_objs
+                    city_list.append(city)
+            return city_list
+
