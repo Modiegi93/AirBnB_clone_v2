@@ -2,7 +2,6 @@
 """Defines the DBStorage engine."""
 from os import getenv
 import models
-from models import storage
 from models.base_model import Base
 from models.base_model import BaseModel
 from models.amenity import Amenity

@@ -9,7 +9,6 @@ import models
 import sqlalchemy
 from sqlalchemy import Column, String, DateTime, Integer, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from models import storage
 
 Base = declarative_base()
 
