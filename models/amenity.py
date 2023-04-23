@@ -3,7 +3,6 @@
     Implementation of the Amenity class
 '''
 import models
-from models import storage
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Table
 from sqlalchemy.orm import relationship
@@ -24,7 +23,3 @@ class Amenity(BaseModel, Base):
                                        back_populates="amenities")
     else:
         name = ""
-
-    def __init__(self, *args, **kwargs):
-        """initializes Amenity"""
-        super().__init__(*args, **kwargs)

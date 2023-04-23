@@ -2,19 +2,19 @@
 """ Starts a Flask web application """
 
 from flask import Flask, render_template
-from models import storage, State, City
+from models import storage
 
 app = Flask(__name__)
 
 
 def cities_by_states():
     """Displays a HTML page with a list of States and Cities"""
-    states = storage.all("State").values()
+    states = storage.all("State")
     return render_template('8-cities_by_states.html', states=states)
 
 
 @app.teardown_appcontext
-def close_session(exception):
+def teardown(exc):
     """ Removes the current SQLAlchemy Session"""
     storage.close()
 

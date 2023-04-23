@@ -2,8 +2,6 @@
 '''
     Implementation of the User class which inherits from BaseModel
 '''
-import models
-from models import storage
 from models.base_model import BaseModel, Base
 from models.place import Place
 from models.review import Review
@@ -19,9 +17,7 @@ class User(BaseModel, Base):
         Definition of the User class
     '''
     __tablename__ = 'users'
-
-    if models.storage_type == 'db':
-
+    if storage_type == 'db':
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
@@ -35,7 +31,3 @@ class User(BaseModel, Base):
         password = ""
         first_name = ""
         last_name = ""
-
-    def __init__(self, *args, **kwargs):
-        """initializes user"""
-        super().__init__(*args, **kwargs)

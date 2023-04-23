@@ -3,7 +3,6 @@
     Define the class City.
 '''
 import models
-from models import storage
 from models.base_model import BaseModel, Base
 import sqlalchemy
 from sqlalchemy import Column, String, ForeignKey, Integer
@@ -27,7 +26,3 @@ class City(BaseModel, Base):
     else:
         name = ""
         state_id = ""
-
-    def __init__(self, *args, **kwargs):
-        """initializes city"""
-        super().__init__(*args, **kwargs)

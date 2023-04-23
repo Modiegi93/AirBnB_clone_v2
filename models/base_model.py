@@ -1,22 +1,24 @@
 #!/usr/bin/python3
-"""
-    This module defines the BaseModel class
-"""
+"""Defines the BaseModel class."""
+import models
 import uuid
 from datetime import datetime
-from os import getenv
-import models
-import sqlalchemy
-from sqlalchemy import Column, String, DateTime, Integer, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column
+from sqlalchemy import DateTime
+from sqlalchemy import String
 
 Base = declarative_base()
 
 
 class BaseModel:
-    '''
-        Base class for other classes to be used for the duration.
-    '''
+    """Defines the BaseModel class.
+    Attributes:
+        id (sqlalchemy String): The BaseModel id.
+        created_at (sqlalchemy DateTime): The datetime at creation.
+        updated_at (sqlalchemy DateTime): The datetime of last update.
+    """
+
     id = Column(String(60), primary_key=True, nullable=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
@@ -70,11 +72,9 @@ class BaseModel:
         '''
             Update the updated_at attribute with new.
         '''
-        from models import storage_type
-        if storage_type == "db":
-            self.updated_at = datetime.now()
-            models.storage.new(self)
-            models.storage.save()
+        self.updated_at = datetime.now()
+        models.storage.new(self)
+        models.storage.save()
 
     def to_dict(self):
         '''
