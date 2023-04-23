@@ -9,15 +9,16 @@ import sqlalchemy
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
-
+from models import storage
 
 storage_type = getenv("HBNB_TYPE_STORAGE")
 
 
 class State(BaseModel, Base):
     """Implementation for the State."""
+    __tablename__ = 'states'
+
     if storage_type != 'db':
-        __tablename__ = 'states'
         name = Column(String(128), nullable=False)
         cities = relationship("City", backref="state",
                               cascade="all, delete-orphan")

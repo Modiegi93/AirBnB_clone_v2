@@ -2,18 +2,19 @@
 """ Starts a Flask web application """
 
 from flask import Flask, render_template
-from models import *
+from models import State, Amenity, Place
 from models import storage
 app = Flask(__name__)
 
 
-@app.route('/hbnb_filters', strict_slashes=False)
-def filters():
+@app.route('/hbnb', strict_slashes=False)
+def hbnb_filters():
     """display a HTML page like 6-index.html from static"""
-    states = storage.all("State").values()
-    amenities = storage.all("Amenity").values()
-    return render_template('10-hbnb_filters.html', states=states,
-                           amenities=amenities)
+    state = storage.all(State)
+    amenities = storage.all(Amenity)
+    place = storage.all(Place)
+    return render_template('100-hbnb.html', states=states, amenities=amenities,
+                           place=place)
 
 
 @app.teardown_appcontext

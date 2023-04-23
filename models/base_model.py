@@ -7,8 +7,9 @@ from datetime import datetime
 from os import getenv
 import models
 import sqlalchemy
-from sqlalchemy import Column, String, DateTime
+from sqlalchemy import Column, String, DateTime, Integer, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
+from models import storage
 
 Base = declarative_base()
 
@@ -17,11 +18,10 @@ class BaseModel:
     '''
         Base class for other classes to be used for the duration.
     '''
-    if models.storage_type == "db":
-        id = Column(String(60), primary_key=True, nullable=False)
-        created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
-        updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
-
+    id = Column(String(60), primary_key=True, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    
     def __init__(self, *args, **kwargs):
         '''
             Initialize public instance attributes.
@@ -71,9 +71,11 @@ class BaseModel:
         '''
             Update the updated_at attribute with new.
         '''
-        self.updated_at = datetime.now()
-        models.storage.new(self)
-        models.storage.save()
+        from models import storage_type
+        if storage_type == "db":
+            self.updated_at = datetime.now()
+            models.storage.new(self)
+            models.storage.save()
 
     def to_dict(self):
         '''
